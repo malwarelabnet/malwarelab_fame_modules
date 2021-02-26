@@ -1,0 +1,43 @@
+<div class="col-md-12">
+    <div class="card">
+        <div class="header">
+            <h4 class="title">Triage</h4>
+            <p class="category">Detailed Results</p>
+        </div>
+        <div class="content">
+            <label>Score</label>
+            {% if results.score %}
+                {% if results.score > 6.0 %}
+                    <h2 style="margin: 0 0 15px; 0"><span class="label label-danger">{{results.score}}</span></h2>
+                {% elif results.score > 2.0 %}
+                    <h2 style="margin: 0 0 15px; 0"><span class="label label-warning">{{results.score}}</span></h2>
+                {% else %}
+                    <h2 style="margin: 0 0 15px; 0"><span class="label label-success">{{results.score}}</span></h2>
+                {% endif %}
+            {% endif %}
+
+            <label>Signatures</label>
+            {% for signature in results.signatures %}
+                {% if signature.get('severity') %}
+                    <div class="close-alert alert {% if signature.severity > 6.0 %}alert-danger{% elif signature.severity > 2.0 %}alert-warning{% else %}alert-info{% endif %}">
+                        {{signature.name}}
+                {% else %}
+                    <div class="close-alert alert alert-info">
+                        {{signature.name}}
+                {% endif %}
+                </div>
+            {% endfor %}
+            <div class="footer">
+                <hr />
+                <div class="stats">
+                    <ul>
+                        {% if current_user.has_permission('triage_access') %}
+                            <li><a href="{{results.URL}}" target="_blank"><i class="pe-7s-link"></i> View Report</a></li>
+                        {% endif %}
+                        {{support_files(name)}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
