@@ -1,0 +1,68 @@
+<div class="col-md-12">
+    <div class="card">
+        <div class="header">
+            <h4 class="title">UnpacMe</h4>
+            <p class="category">Detailed Results</p>
+        </div>
+        <div class="content">
+            <div class="table-responsive table-full-width">
+
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <th><label>Parent</label></th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="close-alert alert alert-info">{{results.parent}}</div></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Unpacked Files</th>
+                            <th>Signatures</th>
+                            <th>Tags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for result in results.unpacked_executables %}    
+                        <tr>
+                            <td>
+                                {% if result.malwares %}
+                                    <div class="close-alert alert alert-danger">{{result.name}}</div>
+                                {% else %}
+                                    <div class="close-alert alert alert-info">{{result.name}}</div>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% for mal in result.malwares %}
+                                    <span class="tag tag-cancelled">{{mal}}</span>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for detect in result.detects %}
+                                    <span class="tag tag-azure">{{detect}}</span>
+                                {% endfor %}
+                            </td>
+                        </tr>
+            
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="footer">
+                <hr />
+                <div class="stats">
+                    <ul>
+                        {% if current_user.has_permission('unpacme_access') %}
+                            <li><a href="{{results.URL}}" target="_blank"><i class="pe-7s-link"></i> View Report</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
